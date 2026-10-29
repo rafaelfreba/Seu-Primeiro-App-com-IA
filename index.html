@@ -1,0 +1,404 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Seu Primeiro App com IA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#inicio"><span class="brand-dot" aria-hidden="true"></span>Primeiro App com IA</a>
+    <nav class="modes" aria-label="Modo de visualização">
+      <button type="button" id="btn-aluno" class="mode-btn" data-mode="aluno">Participante</button>
+      <button type="button" id="btn-prof" class="mode-btn" data-mode="professor">Professor</button>
+    </nav>
+  </div>
+  <div class="timerbar prof-only" id="timerbar">
+    <div class="timerbar-in">
+      <span class="tb-label">Etapa</span>
+      <select id="tb-etapa" aria-label="Etapa atual">
+        <option value="0" data-min="10">1 · Boas-vindas</option>
+        <option value="1" data-min="10">2 · Prototipagem</option>
+        <option value="2" data-min="25">3 · Mão na massa</option>
+        <option value="3" data-min="25">4 · Iteração</option>
+        <option value="4" data-min="15">5 · Encerramento</option>
+      </select>
+      <output id="tb-clock" class="tb-clock">10:00</output>
+      <button type="button" id="tb-play" class="tb-btn">Iniciar</button>
+      <button type="button" id="tb-reset" class="tb-btn ghost">Zerar</button>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="hero-text">
+      <p class="eyebrow">Oficina · 1h30 + 30 min de margem · ensino médio</p>
+      <h1>Crie seu primeiro app em <em>1 hora</em> usando IA</h1>
+      <p class="lede">Você descreve a ideia em português, a IA escreve o código e você testa a tela funcionando no navegador. Hoje o app é o <strong>PetBites</strong>, um delivery de produtos para pets. Depois, ele vira o negócio que você quiser.</p>
+      <div class="hero-meta">
+        <span class="chip">Ferramenta: Gemini com Canvas</span>
+        <span class="chip">Sem instalar nada</span>
+        <span class="chip">Sem saber programar</span>
+      </div>
+    </div>
+    <figure class="hero-demo" aria-label="Prévia do app PetBites funcionando">
+      <div class="phone" id="demo">
+        <div class="ph-top">
+          <strong class="ph-logo">PetBites</strong>
+          <div class="ph-actions">
+            <button type="button" class="ph-icon" id="demo-theme" aria-label="Alternar modo escuro do app">◐</button>
+            <span class="ph-cart" aria-label="Itens no carrinho">🛒<b id="demo-count">0</b></span>
+          </div>
+        </div>
+        <div class="ph-search">🔍 Buscar ração, petiscos…</div>
+        <div class="ph-cards">
+          <article class="ph-card">
+            <div class="ph-img" aria-hidden="true">🐶</div>
+            <h3>Ração Premium Cães</h3>
+            <p class="ph-price">R$ 80,00</p>
+            <div class="ph-row">
+              <button type="button" class="ph-add" data-item="Ração Premium Cães">Adicionar</button>
+              <button type="button" class="ph-fav" aria-pressed="false" aria-label="Favoritar">♡</button>
+            </div>
+          </article>
+          <article class="ph-card">
+            <div class="ph-img" aria-hidden="true">🐱</div>
+            <h3>Petisco Gatos</h3>
+            <p class="ph-price">R$ 15,00</p>
+            <div class="ph-row">
+              <button type="button" class="ph-add" data-item="Petisco Gatos">Adicionar</button>
+              <button type="button" class="ph-fav" aria-pressed="false" aria-label="Favoritar">♡</button>
+            </div>
+          </article>
+        </div>
+        <div class="ph-toast" id="demo-toast" role="status" aria-live="polite"></div>
+      </div>
+      <figcaption>Clique nos botões. É mais ou menos isto que você vai criar.</figcaption>
+    </figure>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="wrap agenda" aria-labelledby="ag-title">
+    <h2 id="ag-title" class="sr-only">Agenda</h2>
+    <div class="agenda-bar" role="list">
+      <a role="listitem" href="#etapa-1" style="--w:10"><span>10′</span>Boas-vindas</a>
+      <a role="listitem" href="#etapa-2" style="--w:10"><span>10′</span>Prototipagem</a>
+      <a role="listitem" href="#etapa-3" style="--w:25" class="hot"><span>25′</span>Mão na massa</a>
+      <a role="listitem" href="#etapa-4" style="--w:25" class="hot"><span>25′</span>Iteração</a>
+      <a role="listitem" href="#etapa-5" style="--w:15"><span>15′</span>Encerramento</a>
+      <a role="listitem" href="#etapa-5" style="--w:5" class="buffer"><span>+</span>Margem</a>
+    </div>
+    <p class="agenda-note">85 minutos de roteiro. A margem de até 30 minutos absorve dúvidas e quem precisar de mais tempo no Canvas.</p>
+  </section>
+
+  <!-- PROFESSOR: ANÁLISE + PREPARO -->
+  <section class="wrap prof-only block" id="analise" aria-labelledby="an-title">
+    <div class="sec-head">
+      <p class="eyebrow">Só para o professor</p>
+      <h2 id="an-title">Análise do roteiro</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>O que já funciona bem</h3>
+        <ul class="ticks">
+          <li><strong>Gancho no minuto 1.</strong> A demonstração ao vivo mostra o resultado antes da teoria, que é o que prende adolescentes.</li>
+          <li><strong>Teoria curta e aplicável.</strong> Os 3 pilares do prompt viram ferramenta na mesma hora.</li>
+          <li><strong>Metade do tempo é prática.</strong> 50 dos 85 minutos são mão na massa.</li>
+          <li><strong>Progressão clara.</strong> Copiar o prompt pronto, depois ajustar com desafios guiados, depois criar livremente.</li>
+          <li><strong>Fechamento ligado à graduação.</strong> A conversa sai do "a IA faz tudo" para "quem decide o que fazer sou eu".</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Ajustes aplicados neste guia</h3>
+        <ul class="ticks warn">
+          <li><strong>Alerta trocado por aviso na tela.</strong> Algumas prévias bloqueiam a janela <code>alert()</code> do navegador. O Prompt Mestre agora pede um balão que some sozinho.</li>
+          <li><strong>Plano B para acesso.</strong> Contas de menores de idade e contas escolares podem ter o Gemini restrito. Confirme antes e prepare duplas.</li>
+          <li><strong>Construtor de prompt.</strong> Na etapa 2 os alunos montam um prompt com os 3 pilares antes de usar o pronto.</li>
+          <li><strong>Desafio extra</strong> para quem terminar antes, e um <strong>roteiro de "deu errado"</strong> para quem travar.</li>
+          <li><strong>Pergunta de reflexão</strong> no fechamento, para conectar o que fizeram com o que se aprende no curso.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel checklist-panel">
+      <h3>Checklist antes da aula</h3>
+      <p class="hint">Fica marcado neste navegador.</p>
+      <ul class="checklist" id="checklist">
+        <li><label><input type="checkbox" id="ck1"> Testei o Prompt Mestre no Gemini, no mesmo dia, e o Canvas abriu.</label></li>
+        <li><label><input type="checkbox" id="ck2"> Confirmei com a coordenação se os alunos têm conta Google com acesso ao Gemini (idade e contas escolares).</label></li>
+        <li><label><input type="checkbox" id="ck3"> Wi-Fi do laboratório testado com a turma inteira conectada.</label></li>
+        <li><label><input type="checkbox" id="ck4"> Link deste guia encurtado e em QR Code no primeiro slide.</label></li>
+        <li><label><input type="checkbox" id="ck5"> Uma conversa do Gemini já pronta com o PetBites, para o caso de a geração ao vivo demorar.</label></li>
+        <li><label><input type="checkbox" id="ck6"> Plano de duplas para quem estiver sem conta ou sem computador.</label></li>
+        <li><label><input type="checkbox" id="ck7"> Material de divulgação dos cursos (datas de inscrição, contato) à mão para o fechamento.</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ETAPA 1 -->
+  <section class="wrap block etapa" id="etapa-1" aria-labelledby="e1">
+    <div class="sec-head">
+      <span class="time">10 min</span>
+      <h2 id="e1"><span class="num">1</span>Boas-vindas e efeito uau</h2>
+    </div>
+    <p class="body-text">Em poucos segundos a IA vai gerar um app que funciona. Preste atenção: no final da oficina você terá um igual rodando no seu navegador, e depois um só seu.</p>
+
+    <aside class="note prof-only">
+      <p class="note-tag">Como conduzir</p>
+      <ol>
+        <li><strong>2 min.</strong> Apresente-se e diga em uma frase o que um analista ou engenheiro de software faz no dia a dia.</li>
+        <li><strong>1 min.</strong> Pergunte: <em>"Quem aqui já teve ideia de um app?"</em> Peça para dois ou três falarem a ideia em voz alta. Guarde essas ideias para o desafio 3.</li>
+        <li><strong>4 min.</strong> Cole o Prompt Mestre no Gemini, no projetor, e deixe a turma ver o código sendo escrito. Clique em "Adicionar" e mostre o contador subindo.</li>
+        <li><strong>3 min.</strong> Diga a frase de impacto e mostre o QR Code deste guia.</li>
+      </ol>
+      <blockquote>"Vocês vão sair daqui hoje com um protótipo igual a este rodando no seu navegador. E depois, com o app de vocês."</blockquote>
+      <p class="fallback"><strong>Se a geração travar:</strong> abra a conversa salva com antecedência ou use a prévia do PetBites no topo desta página.</p>
+    </aside>
+  </section>
+
+  <!-- ETAPA 2 -->
+  <section class="wrap block etapa" id="etapa-2" aria-labelledby="e2">
+    <div class="sec-head">
+      <span class="time">10 min</span>
+      <h2 id="e2"><span class="num">2</span>O que é prototipagem com IA?</h2>
+    </div>
+    <div class="grid-2 align-start">
+      <div class="body-text">
+        <p>Um <strong>protótipo</strong> é uma versão de teste de um app. Ele mostra como a tela vai ficar e o que acontece quando alguém clica, sem ter ainda banco de dados, pagamento ou login de verdade.</p>
+        <p>Empresas fazem protótipos para descobrir se a ideia é boa <strong>antes</strong> de gastar meses programando. Se o usuário se perde na tela, é muito mais barato corrigir agora.</p>
+        <p>A IA acelera essa etapa: você descreve a tela e ela escreve o código. Mas quem decide <em>o que</em> pedir é você. É aí que entra o <strong>prompt</strong>.</p>
+      </div>
+      <div class="pillars" role="list">
+        <div class="pillar" role="listitem"><b>Papel</b><span>Quem a IA deve ser.</span><code>Atue como um designer UX/UI…</code></div>
+        <div class="pillar" role="listitem"><b>Contexto</b><span>O que você precisa e para quem.</span><code>Preciso de uma tela para um app de…</code></div>
+        <div class="pillar" role="listitem"><b>Restrição</b><span>Formato e regras da entrega.</span><code>Gere um código HTML completo no Canvas…</code></div>
+      </div>
+    </div>
+
+    <div class="builder" aria-labelledby="bd-title">
+      <h3 id="bd-title">Monte seu prompt</h3>
+      <p class="hint">Preencha os 3 pilares e veja o prompt se formar.</p>
+      <div class="builder-grid">
+        <div class="field">
+          <label for="pb-papel">1 · Papel</label>
+          <select id="pb-papel">
+            <option value="">Escolha…</option>
+            <option selected>Atue como um designer UX/UI especialista em apps móveis.</option>
+            <option>Atue como um desenvolvedor front-end experiente.</option>
+            <option>Atue como um designer de games casuais.</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="pb-contexto">2 · Contexto</label>
+          <textarea id="pb-contexto" rows="3">Preciso da tela inicial de um app de lanchonete da escola, onde os alunos escolhem um lanche e veem o preço.</textarea>
+        </div>
+        <div class="field">
+          <label for="pb-restricao">3 · Restrição</label>
+          <select id="pb-restricao">
+            <option value="">Escolha…</option>
+            <option selected>Gere no Canvas um código HTML completo e interativo, com visual moderno e layout de celular.</option>
+            <option>Use apenas uma tela, cores azul e branco, e botões grandes fáceis de tocar.</option>
+            <option>Inclua um botão que mostre uma mensagem na própria tela quando for clicado.</option>
+          </select>
+        </div>
+      </div>
+      <div class="builder-out">
+        <div class="meter" aria-live="polite"><span id="pb-meter">3 de 3 pilares</span><i id="pb-bar" style="--p:100%"></i></div>
+        <pre class="prompt" id="pb-out"></pre>
+        <button type="button" class="copy" data-copy-from="pb-out">Copiar prompt</button>
+      </div>
+    </div>
+
+    <aside class="note prof-only">
+      <p class="note-tag">Como conduzir</p>
+      <p>Explique os pilares com uma comparação: pedir algo a uma pessoa nova no trabalho. Se você só disser "faz um app", ela não sabe por onde começar. Mostre no construtor como a frase fica mais clara a cada pilar preenchido. Não peça para colarem este prompt ainda; ele é só para entender a estrutura.</p>
+    </aside>
+  </section>
+
+  <!-- ETAPA 3 -->
+  <section class="wrap block etapa" id="etapa-3" aria-labelledby="e3">
+    <div class="sec-head">
+      <span class="time">25 min</span>
+      <h2 id="e3"><span class="num">3</span>Mão na massa: gerando o protótipo</h2>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Entre no Gemini</h3>
+        <p>Acesse <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a> e entre com sua conta Google. Na caixa de mensagem, ative a opção <strong>Canvas</strong>.</p>
+      </li>
+      <li>
+        <h3>Cole o Prompt Mestre</h3>
+        <p>Copie o texto abaixo, cole no Gemini e envie.</p>
+        <div class="prompt-box">
+          <pre class="prompt" id="prompt-mestre">Atue como um desenvolvedor UX/UI especialista. Crie no Canvas uma interface interativa e moderna para a tela de um aplicativo móvel chamado 'PetBites' (delivery de produtos para pets).
+
+A interface deve incluir:
+1. Um cabeçalho com a marca 'PetBites' e um ícone de carrinho com contador de itens, começando em 0.
+2. Uma barra de busca visual.
+3. Dois cards de produtos: 'Ração Premium Cães' (R$ 80) e 'Petisco Gatos' (R$ 15), cada um com o botão 'Adicionar ao Carrinho'.
+4. Ao clicar em 'Adicionar ao Carrinho', o contador do topo soma +1 e aparece um aviso de confirmação na própria tela (um balão que some sozinho depois de 2 segundos), sem usar a janela de alerta do navegador.
+5. Estilo amigável em tons de laranja e branco, com layout de celular centralizado na tela.
+
+Monte essa interface totalmente interativa, em um único arquivo HTML, diretamente na janela do Canvas.</pre>
+          <button type="button" class="copy" data-copy-from="prompt-mestre">Copiar prompt</button>
+        </div>
+      </li>
+      <li>
+        <h3>Teste o app</h3>
+        <p>O Canvas abre ao lado da conversa com o app pronto. Clique em <strong>Adicionar ao Carrinho</strong> e confira se o contador sobe e o aviso aparece. Se algo não funcionar, conte ao Gemini o que aconteceu. Isso também é programar.</p>
+      </li>
+    </ol>
+
+    <details class="trouble">
+      <summary>Deu errado? Comece por aqui</summary>
+      <dl>
+        <dt>O Canvas não abriu, só apareceu código no chat</dt>
+        <dd>Escreva: <q>Abra esse código no Canvas para eu ver a prévia.</q></dd>
+        <dt>O botão não faz nada</dt>
+        <dd>Escreva: <q>Quando clico em Adicionar ao Carrinho nada acontece. Corrija para o contador somar +1.</q></dd>
+        <dt>O visual ficou diferente do colega</dt>
+        <dd>Normal. A IA não gera duas respostas iguais. O que importa é ter cabeçalho, busca, dois cards e o contador funcionando.</dd>
+        <dt>Não consigo entrar no Gemini</dt>
+        <dd>Faça em dupla com um colega. Vocês revezam quem digita a cada desafio.</dd>
+      </dl>
+    </details>
+
+    <aside class="note prof-only">
+      <p class="note-tag">Como conduzir</p>
+      <ul>
+        <li><strong>0–5 min.</strong> Todos entram no Gemini. Circule pela sala resolvendo acesso; quem não conseguir vai para uma dupla.</li>
+        <li><strong>5–15 min.</strong> Colar o prompt e esperar a geração. Mostre no projetor onde fica o Canvas.</li>
+        <li><strong>15–25 min.</strong> Testar. Peça para levantarem a mão quando o contador funcionar e comemore os primeiros. Use o quadro "Deu errado?" com quem travar.</li>
+      </ul>
+      <p>Por que o prompt mudou: a versão original pedia um alerta, e algumas prévias bloqueiam a janela de alerta do navegador, deixando o botão aparentemente quebrado. O balão na tela funciona sempre e é mais próximo do que apps reais fazem.</p>
+    </aside>
+  </section>
+
+  <!-- ETAPA 4 -->
+  <section class="wrap block etapa" id="etapa-4" aria-labelledby="e4">
+    <div class="sec-head">
+      <span class="time">25 min</span>
+      <h2 id="e4"><span class="num">4</span>Customização e iteração</h2>
+    </div>
+    <p class="body-text">Agora você pede mudanças pelo chat e o Canvas se atualiza. Cada pedido é uma <strong>iteração</strong>: melhorar o produto em pequenos passos, testando a cada mudança.</p>
+
+    <div class="challenges">
+      <article class="challenge">
+        <header><span class="lvl">Desafio 1</span><h3>Design e UX</h3></header>
+        <p>Deixe o app em modo escuro e adicione um botão de favoritar.</p>
+        <pre class="prompt" id="d1">Mude a interface para Modo Escuro (Dark Mode), mantendo o laranja como cor de destaque. Adicione um botão de coração em cada card de produto: ao clicar, o coração fica preenchido; ao clicar de novo, volta a ficar vazio.</pre>
+        <button type="button" class="copy" data-copy-from="d1">Copiar</button>
+      </article>
+      <article class="challenge">
+        <header><span class="lvl">Desafio 2</span><h3>Nova funcionalidade</h3></header>
+        <p>Crie um campo de cupom de desconto.</p>
+        <pre class="prompt" id="d2">Adicione no final da tela um campo para digitar um Cupom de Desconto e um botão 'Aplicar'. Se o cupom for PET10, mostre na tela "Cupom aplicado: 10% de desconto". Para qualquer outro código, mostre "Cupom inválido".</pre>
+        <button type="button" class="copy" data-copy-from="d2">Copiar</button>
+      </article>
+      <article class="challenge free">
+        <header><span class="lvl">Desafio 3</span><h3>O app é seu</h3></header>
+        <p>Troque marca, produtos, preços e cores para o negócio que você gostaria de criar. Use os 3 pilares. Exemplo:</p>
+        <pre class="prompt" id="d3">Transforme este app em uma loja de [tipo do seu negócio] chamada '[nome]'. Troque os produtos por [produto 1] e [produto 2] com preços em reais, e mude as cores para [cores]. Mantenha o carrinho, o favorito e o cupom funcionando.</pre>
+        <button type="button" class="copy" data-copy-from="d3">Copiar</button>
+      </article>
+      <article class="challenge bonus">
+        <header><span class="lvl">Bônus</span><h3>Terminou antes?</h3></header>
+        <p>Faça o carrinho mostrar o valor total.</p>
+        <pre class="prompt" id="d4">Ao clicar no ícone do carrinho, abra um painel listando os produtos adicionados e o valor total em reais. Se um cupom válido tiver sido aplicado, mostre o total com desconto.</pre>
+        <button type="button" class="copy" data-copy-from="d4">Copiar</button>
+      </article>
+    </div>
+
+    <aside class="note prof-only">
+      <p class="note-tag">Como conduzir</p>
+      <ul>
+        <li><strong>Desafio 1, 7 min.</strong> Faça junto no projetor. Mostre que pedir uma coisa de cada vez dá resultado melhor do que pedir tudo junto.</li>
+        <li><strong>Desafio 2, 8 min.</strong> Deixe que façam sozinhos. Ao terminar, pergunte: <em>"E se alguém digitar pet10 em minúsculas?"</em> Isso abre a conversa sobre testar casos e regras de negócio.</li>
+        <li><strong>Desafio 3, 10 min.</strong> Retome as ideias de app que surgiram na abertura. Peça 2 ou 3 voluntários para mostrar no projetor.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- ETAPA 5 -->
+  <section class="wrap block etapa" id="etapa-5" aria-labelledby="e5">
+    <div class="sec-head">
+      <span class="time">15 min</span>
+      <h2 id="e5"><span class="num">5</span>Encerramento</h2>
+    </div>
+
+    <div class="grid-2 align-start">
+      <div class="panel">
+        <h3>Leve seu app para casa</h3>
+        <ol class="mini-steps">
+          <li>No Canvas, use a opção de <strong>compartilhar</strong> para gerar um link e mandar para alguém.</li>
+          <li>Ou copie o código, cole no Bloco de Notas e salve como <code>meu-app.html</code>. Dê dois cliques no arquivo e ele abre em qualquer navegador.</li>
+          <li>A conversa fica salva no seu histórico do Gemini. Dá para continuar melhorando depois.</li>
+        </ol>
+      </div>
+      <div class="panel reflect">
+        <h3>Pense nisto</h3>
+        <p>Seu app tem um carrinho, mas…</p>
+        <ul>
+          <li>Onde ficam guardados os pedidos de mil clientes ao mesmo tempo?</li>
+          <li>Como impedir que alguém invente um cupom de 100%?</li>
+          <li>O que acontece se o pagamento cair no meio da compra?</li>
+        </ul>
+        <p class="punch">A IA fez a tela. Responder essas perguntas é trabalho de quem estuda desenvolvimento de software.</p>
+      </div>
+    </div>
+
+    <div class="courses">
+      <article class="course">
+        <p class="eyebrow">Graduação tecnológica</p>
+        <h3>Análise e Desenvolvimento de Sistemas</h3>
+        <p>Foco em construir e entregar sistemas: programação, bancos de dados, desenvolvimento web e mobile, testes. Para quem quer colocar a mão no código e chegar rápido ao mercado.</p>
+      </article>
+      <article class="course">
+        <p class="eyebrow">Bacharelado</p>
+        <h3>Engenharia de Software</h3>
+        <p>Foco em projetar sistemas grandes e confiáveis: arquitetura, qualidade, segurança, gestão de projetos e processos de equipe. Para quem quer liderar a construção de produtos complexos.</p>
+      </article>
+    </div>
+
+    <aside class="note prof-only">
+      <p class="note-tag">Como conduzir</p>
+      <ul>
+        <li><strong>3 min.</strong> Mostre a exportação no projetor.</li>
+        <li><strong>4 min.</strong> Leia as perguntas de "Pense nisto" e deixe a turma tentar responder. Não precisa haver resposta certa.</li>
+        <li><strong>3 min.</strong> Gancho para a graduação, com a frase abaixo. Complete os cards dos cursos com duração, modalidade e datas de inscrição da sua unidade.</li>
+        <li><strong>5 min ou mais.</strong> Perguntas e respostas. Use a margem de 30 minutos se a conversa render.</li>
+      </ul>
+      <blockquote>"Criar o protótipo com IA é rápido. Saber quais problemas resolver, como estruturar os dados, garantir a segurança e projetar sistemas grandes é o que você aprende na graduação."</blockquote>
+    </aside>
+  </section>
+
+  <!-- GLOSSÁRIO -->
+  <section class="wrap block" id="glossario" aria-labelledby="gl">
+    <div class="sec-head"><h2 id="gl">Palavras de hoje</h2></div>
+    <dl class="glossary">
+      <div><dt>Protótipo</dt><dd>Versão de teste de um app, feita para validar a ideia antes de construir tudo.</dd></div>
+      <div><dt>UX</dt><dd>Experiência do usuário: se o app é fácil, claro e agradável de usar.</dd></div>
+      <div><dt>UI</dt><dd>Interface do usuário: a parte visual, como cores, botões e textos.</dd></div>
+      <div><dt>Prompt</dt><dd>A instrução que você escreve para a IA.</dd></div>
+      <div><dt>HTML, CSS e JS</dt><dd>As três linguagens das páginas web: estrutura, estilo e comportamento.</dd></div>
+      <div><dt>Iteração</dt><dd>Melhorar o produto em ciclos curtos: pedir, testar, ajustar.</dd></div>
+    </dl>
+  </section>
+
+</main>
+
+<footer class="foot wrap">
+  <p>Oficina de prototipagem com IA · UniSENAI MT</p>
+  <button type="button" class="link-btn" id="foot-mode">Abrir modo professor</button>
+</footer>
+
+<div class="toast" id="copy-toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+
+</body></html>
